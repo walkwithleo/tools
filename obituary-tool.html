@@ -39,7 +39,7 @@
 
   .header { text-align: center; margin-bottom: 2rem; }
   .header-logo { margin-bottom: 0.75rem; }
-  .header-logo img { height: 52px; width: auto; display: inline-block; }
+  .header-logo img { height: 104px; width: auto; display: inline-block; }
   .header h1 { font-family: var(--font-display); font-size: 30px; font-weight: 600; margin-bottom: 0.5rem; }
   .header p { font-family: var(--font-display); font-size: 17px; color: var(--mid); font-style: italic; }
 
@@ -60,24 +60,26 @@
   .field label { display: block; font-size: var(--size-label); font-weight: 700; color: var(--dark); margin-bottom: 5px; }
   .field .hint { font-size: var(--size-hint); color: var(--mid); margin-bottom: 9px; line-height: 1.55; }
 
-  input[type=text], input[type=date], input[type=url], textarea, select {
+  input[type=text], input[type=url], textarea, select {
     width: 100%; padding: 12px 16px;
     border: 1.5px solid var(--border); border-radius: 8px;
     font-size: var(--size-input); font-family: var(--font-body);
     background: #FDFBF9; color: var(--dark);
     outline: none; transition: border-color 0.15s;
   }
-  input[type=text]:focus, input[type=date]:focus, input[type=url]:focus, textarea:focus, select:focus { border-color: var(--border-focus); }
+  input[type=text]:focus, input[type=url]:focus, textarea:focus, select:focus { border-color: var(--border-focus); }
   textarea { resize: vertical; line-height: 1.65; }
 
-  .date-row { display: flex; gap: 8px; align-items: flex-start; }
+  .date-location-block { margin-bottom: 1.5rem; }
+  .date-location-block label { display: block; font-size: var(--size-label); font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+  .date-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
   .date-row select { padding: 12px 10px; }
   .date-month { flex: 2; }
   .date-day   { flex: 1; }
   .date-year  { flex: 1.5; }
+  .location-input { margin-top: 4px; }
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .age-display { font-size: var(--size-hint); color: var(--muted); font-style: italic; margin-top: -1rem; margin-bottom: 1.5rem; }
+  .age-display { font-size: var(--size-hint); color: var(--muted); font-style: italic; margin-bottom: 1.5rem; }
 
   .banner, .thought-note { background: var(--primary-tint); border-radius: 8px; padding: 13px 16px; margin-bottom: 1.5rem; font-size: var(--size-hint); color: var(--primary-deep); line-height: 1.6; }
   .skip-note { font-size: var(--size-hint); color: var(--mid); margin-bottom: 1.5rem; line-height: 1.6; }
@@ -102,7 +104,6 @@
   .btn-next:disabled { background: var(--muted); cursor: default; }
 
   .err { color: var(--primary); font-size: var(--size-hint); margin-top: 0.75rem; text-align: right; }
-
   .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -122,7 +123,6 @@
 
   @media (max-width: 520px) {
     body { padding: 1.5rem 1rem 2rem; }
-    .two-col { grid-template-columns: 1fr; }
     .card { padding: 1.5rem 1.25rem; }
     .date-row { flex-wrap: wrap; }
   }
@@ -146,8 +146,7 @@
 
 <script>
 const STEP_NAMES = ["The basics","Family","Their life","Who they were","How they spent their time","Their story","Preferences"];
-const STORAGE_KEY = "leo-obit-v4";
-
+const STORAGE_KEY = "leo-obit-v5";
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const TODAY = new Date();
 const MAX_YEAR = TODAY.getFullYear();
@@ -155,8 +154,8 @@ const MIN_YEAR = MAX_YEAR - 125;
 
 const INIT = {
   fullName:"",nickname:"",
-  dobMonth:"",dobDay:"",dobYear:"",
-  dodMonth:"",dodDay:"",dodYear:"",
+  dobMonth:"",dobDay:"",dobYear:"",birthPlace:"",
+  dodMonth:"",dodDay:"",dodYear:"",deathPlace:"",
   city:"",howRaised:"",
   spouse:"",spouseStatus:"surviving",howMet:"",children:"",grandchildren:"",
   siblings:"",parents:"",precededBy:"",otherFamily:"",
@@ -191,7 +190,6 @@ function calcAge() {
 }
 
 function formatDate(month, day, year) {
-  if (!month && !day && !year) return "";
   const parts = [];
   if (month) parts.push(MONTHS[+month-1]);
   if (day) parts.push(day);
@@ -225,8 +223,8 @@ function el(tag,attrs,...children) {
   return e;
 }
 
-function inp(f,placeholder,type="text") {
-  const i=el("input",{type,placeholder});
+function inp(f,placeholder) {
+  const i=el("input",{type:"text",placeholder});
   i.value=state.form[f]||"";
   i.addEventListener("input",()=>set(f,i.value));
   return i;
@@ -258,6 +256,22 @@ function dateSelects(prefix) {
   ySel.addEventListener("change",()=>{ set(prefix+"Year",ySel.value); updateAge(); });
 
   wrap.appendChild(mSel); wrap.appendChild(dSel); wrap.appendChild(ySel);
+  return wrap;
+}
+
+function dateLocationBlock(labelText, prefix, locationKey, locationPlaceholder) {
+  const wrap = el("div",{"class":"date-location-block"});
+  const lbl = el("label",{}); lbl.textContent = labelText; wrap.appendChild(lbl);
+  wrap.appendChild(dateSelects(prefix));
+  const locInp = el("input",{type:"text", placeholder: locationPlaceholder, "class":"location-input"});
+  locInp.style.width="100%"; locInp.style.padding="12px 16px"; locInp.style.border="1.5px solid var(--border)";
+  locInp.style.borderRadius="8px"; locInp.style.fontSize="var(--size-input)"; locInp.style.fontFamily="var(--font-body)";
+  locInp.style.background="#FDFBF9"; locInp.style.color="var(--dark)"; locInp.style.outline="none";
+  locInp.value = state.form[locationKey]||"";
+  locInp.addEventListener("input",()=>set(locationKey,locInp.value));
+  locInp.addEventListener("focus",()=>locInp.style.borderColor="var(--border-focus)");
+  locInp.addEventListener("blur",()=>locInp.style.borderColor="var(--border)");
+  wrap.appendChild(locInp);
   return wrap;
 }
 
@@ -304,16 +318,27 @@ function buildPrompt() {
 
   return `You are helping a grieving family write an obituary in the first days after losing someone they love. Write with care, warmth, and specificity. Write in third person.
 
-${age!==null?`Age at passing: ${age===0?"under 1 year old (infant)":age}`:""}
+CRITICAL RULES — READ BEFORE WRITING:
+1. NEVER invent, assume, or infer any fact not explicitly provided below. If a detail is missing, omit it entirely. Do not fill gaps with plausible-sounding information.
+2. NEVER characterize the manner, circumstances, or setting of death. Do not use words like "peacefully," "suddenly," "surrounded by family," or "after a long illness" unless the family has explicitly provided those words.
+3. NEVER add editorial bridge sentences or emotional interpretations that go beyond what the family provided. Do not write things like "this lesson would shape everything about the woman she became" or similar flourishes.
+4. NEVER rewrite or paraphrase the family's closing statement. If provided, it must appear VERBATIM as the final paragraph — exact words, exact punctuation.
+5. NEVER calculate or state a duration (years of marriage, years in career, age) unless the raw numbers to calculate it were explicitly provided.
+6. ONLY use details the family gave you. When in doubt, leave it out.
+
+${age!==null?`Age at passing: ${age===0?"under 1 year old (infant)":age} (calculated from dates provided)`:""}
 
 BASICS
 Full name: ${f.fullName}
 ${f.nickname?`Known as: ${f.nickname}`:""}
-${dob?`Born: ${dob}`:""}${dod?` | Passed: ${dod}`:""}
+${dob?`Date of birth: ${dob}`:""}
+${f.birthPlace?`Place of birth: ${f.birthPlace}`:""}
+${dod?`Date of passing: ${dod}`:""}
+${f.deathPlace?`Place of passing: ${f.deathPlace}`:""}
 ${f.city?`Lived in: ${f.city}`:""}
 ${f.howRaised?`How they were raised: ${f.howRaised}`:""}
 
-SPOUSE — IMPORTANT: Introduce the spouse early, within the first 2-3 paragraphs. Frame the marriage as part of who they were, not just a survivor listing. Include duration of marriage if it can be calculated.
+SPOUSE — Introduce the spouse early, within the first 2-3 paragraphs, as part of who they were — not just in the survivor listing. Include duration of marriage only if it can be calculated from dates explicitly provided.
 ${f.spouse?`${f.spouseStatus==="surviving"?"Spouse (surviving)":"Spouse (preceded them in death)"}: ${f.spouse}`:""}
 ${f.howMet?`Marriage details: ${f.howMet}`:""}
 
@@ -340,20 +365,18 @@ ${f.otherFamily?`Also survived by: ${f.otherFamily}`:""}
 THEIR STORY
 ${f.memory?`A memory that captures them: ${f.memory}`:""}
 ${f.remember?`What family most wants remembered: ${f.remember}`:""}
-${f.closingStatement?`Family closing statement — include verbatim as the final paragraph: "${f.closingStatement}"`:""}
+${f.closingStatement?`CLOSING STATEMENT — reproduce these exact words verbatim as the final paragraph: "${f.closingStatement}"`:""}
 ${f.donation?`Memorial donations: ${f.donation}`:""}
 
 Tone: ${toneMap[f.tone]}
 Length: ${lenMap[f.length]}
 
-INSTRUCTIONS
-- Lead with the person's full name.
-- Introduce the spouse early — within the first 2-3 paragraphs — as part of who they were, not just in the survivor list.
-- Use specific details where provided. Specificity is what makes an obituary worth keeping.
-- If a family closing statement is provided, include it verbatim as the final paragraph.
-- Include memorial donations at the close if provided.
-- For infants or very young children, center the story around the family and the brief time together.
-- Write only the obituary — no preamble, no meta-commentary.`;
+FINAL CHECKLIST BEFORE WRITING:
+- Every fact in this obituary must trace directly to the family's input above
+- If dates are missing, do not state or imply them
+- If manner of death is missing, do not characterize it in any way
+- The closing statement, if provided, must be reproduced word for word
+- Write only the obituary — no preamble, no explanation, no meta-commentary`;
 }
 
 function renderStep() {
@@ -378,22 +401,16 @@ function renderStep() {
     wrap.appendChild(field("Full name","The only field we truly need to get started",inp("fullName","First, middle, last")));
     wrap.appendChild(field("Nickname or what family called them","If they were known by something other than their full name",inp("nickname",'e.g. Mom, Grandpa Joe, "Doc"')));
 
-    const dobField=el("div",{"class":"field"});
-    const dobLabel=el("label",{}); dobLabel.textContent="Date of birth"; dobField.appendChild(dobLabel);
-    dobField.appendChild(dateSelects("dob"));
-    wrap.appendChild(dobField);
-
-    const dodField=el("div",{"class":"field"});
-    const dodLabel=el("label",{}); dodLabel.textContent="Date of passing"; dodField.appendChild(dodLabel);
-    dodField.appendChild(dateSelects("dod"));
-    wrap.appendChild(dodField);
+    wrap.appendChild(dateLocationBlock("Date and place of birth","dob","birthPlace","City, State or Country where they were born"));
 
     const ageDisp=el("div",{"class":"age-display","id":"age-display"});
     if (age!==null) { ageDisp.textContent=`Age at passing: ${age===0?"under 1 year":age}`; }
     else { ageDisp.style.display="none"; }
     wrap.appendChild(ageDisp);
 
-    wrap.appendChild(field("Where they lived",null,inp("city","City, State")));
+    wrap.appendChild(dateLocationBlock("Date and place of passing","dod","deathPlace","City, State where they passed away"));
+
+    wrap.appendChild(field("Where they lived","Their home at the time of passing",inp("city","City, State")));
     wrap.appendChild(field("How they were raised","Not just where — the environment, the people, what shaped them",ta("howRaised","e.g. Grew up in a small town in rural Georgia, one of five kids. Her mother kept a big garden and her father ran the hardware store on Main Street.",3)));
   }
 
