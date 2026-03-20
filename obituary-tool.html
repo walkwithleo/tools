@@ -645,6 +645,136 @@ function render() {
   main.appendChild(card);
 }
 
+const PERSONAS = {
+  baby: {
+    fullName:"Lily Anne Morrison", nickname:"", 
+    dobMonth:"1", dobDay:"14", dobYear:"2025", birthPlace:"Denver, Colorado",
+    dodMonth:"3", dodDay:"2", dodYear:"2025", deathPlace:"Denver, Colorado",
+    city:"Denver, Colorado", howRaised:"",
+    hasSpouse:"no", spouse:"", spouseStatus:"surviving", howMet:"",
+    hasChildren:"no", children:"", grandchildren:"",
+    siblings:"", parents:"born to James and Rachel Morrison",
+    precededBy:"", otherFamily:"",
+    education:"", career:"",
+    description:"", ordinaryDay:"",
+    quote:"",
+    freeTime:"She loved being held and would calm down instantly when her dad sang to her. She spent her short life surrounded by people who already loved her completely.",
+    memory:"Her parents brought her home from the hospital on a Tuesday in January. They sat together on the couch with her between them for three hours and didn't move.",
+    remember:"That she was here. That she was loved. That she changed her family forever in the six weeks they had with her.",
+    closingStatement:"Lily came into this world quietly and left it the same way. She made us parents, and nothing will ever undo that.",
+    donation:"March of Dimes, marchofdimes.org",
+    tone:"warm", length:"brief"
+  },
+  teen: {
+    fullName:"Marcus James Delgado", nickname:"Marc",
+    dobMonth:"8", dobDay:"22", dobYear:"2008", birthPlace:"Austin, Texas",
+    dodMonth:"2", dodDay:"11", dodYear:"2025", deathPlace:"Austin, Texas",
+    city:"Austin, Texas", howRaised:"Grew up in South Austin, the oldest of three boys. His parents ran a small landscaping business and Marcus worked alongside his dad from the time he was twelve.",
+    hasSpouse:"no", spouse:"", spouseStatus:"surviving", howMet:"",
+    hasChildren:"no", children:"", grandchildren:"",
+    siblings:"brothers Noah (14) and Caleb (11)",
+    parents:"born to Eduardo and Tina Delgado",
+    precededBy:"his grandmother Rosa Delgado",
+    otherFamily:"many cousins and close friends who were like family",
+    education:"Junior at Bowie High School. Played varsity soccer, was known as the hardest worker on the team.",
+    career:"",
+    description:"He was the kind of kid who made friends everywhere he went without trying. Loud laugh, loyal to a fault, always the one texting to check in on people.",
+    ordinaryDay:"School, soccer practice, home for dinner, video games with his brothers until someone made him go to bed.",
+    quote:"Stay solid.",
+    freeTime:"Soccer was everything. Also loved fishing with his dad on early Saturday mornings, cooking breakfast tacos, and watching old NBA highlight reels for hours.",
+    memory:"Last Thanksgiving he insisted on making the mashed potatoes himself for the first time. They were lumpy. He was so proud of them. Everyone ate two helpings.",
+    remember:"That he showed up for people. That his laugh was the kind you could hear from another room and it made everything better.",
+    closingStatement:"He was sixteen and he already knew who he was. We are still learning from him.",
+    donation:"American Foundation for Suicide Prevention, afsp.org",
+    tone:"warm", length:"standard"
+  },
+  adultSingle: {
+    fullName:"Patricia Anne Nguyen", nickname:"Pat",
+    dobMonth:"6", dobDay:"3", dobYear:"1971", birthPlace:"San Jose, California",
+    dodMonth:"1", dodDay:"28", dodYear:"2025", deathPlace:"Portland, Oregon",
+    city:"Portland, Oregon", howRaised:"Grew up in San Jose, the daughter of Vietnamese immigrants who ran a restaurant on the east side. She worked the front of house every weekend from age ten and learned hospitality before she learned to drive.",
+    hasSpouse:"no", spouse:"", spouseStatus:"surviving", howMet:"",
+    hasChildren:"no", children:"", grandchildren:"",
+    siblings:"sister Diane Nguyen-Park (Portland) and brother Thomas Nguyen (San Jose)",
+    parents:"born to Minh and Lan Nguyen",
+    precededBy:"her parents Minh and Lan",
+    otherFamily:"her chosen family of close friends in Portland, and her dog Remy",
+    education:"Graduated from UC Davis in 1993 with a degree in environmental studies.",
+    career:"Spent her career in urban sustainability, most recently as director of green infrastructure for the City of Portland. Seventeen years with the city.",
+    description:"She was sharp and funny and did not suffer fools. She also cried at every single dog video she ever saw. Both things were completely true.",
+    ordinaryDay:"Early morning run along the river, black coffee, in the office before anyone else. Home by 7, dinner she cooked herself, book until midnight.",
+    quote:"Do the work. The rest follows.",
+    freeTime:"Trail running, her rooftop garden, cooking elaborate Sunday dinners for whoever could come. She had been to 31 countries and was planning number 32.",
+    memory:"Every year on her parents' anniversary she made her mother's pho from scratch. It took all day. She said it was the only day she let herself miss them out loud.",
+    remember:"That she built something real. That she was exactly who she said she was.",
+    closingStatement:"She lived fully and on her own terms. We should all be so lucky.",
+    donation:"Portland Parks Foundation, portlandpf.org",
+    tone:"warm", length:"standard"
+  },
+  adultFamily: {
+    fullName:"Daniel Robert Okafor", nickname:"Dan",
+    dobMonth:"4", dobDay:"17", dobYear:"1979", birthPlace:"Lagos, Nigeria",
+    dodMonth:"3", dodDay:"5", dodYear:"2025", deathPlace:"Charlotte, North Carolina",
+    city:"Charlotte, North Carolina", howRaised:"Born in Lagos and moved to Charlotte at age seven with his parents. Grew up in the University City neighborhood, the only child of two professors who filled the house with books and expectations he always exceeded.",
+    hasSpouse:"yes", spouse:"Jennifer Okafor", spouseStatus:"surviving",
+    howMet:"Met at UNC Charlotte during freshman orientation in 1997. Married July 19, 2003 at First Baptist Church in Charlotte. Together 22 years.",
+    hasChildren:"yes",
+    children:"son Elijah (16) and daughter Zoe (13)",
+    grandchildren:"",
+    siblings:"no siblings",
+    parents:"born to Charles and Adaeze Okafor",
+    precededBy:"his parents Charles and Adaeze",
+    otherFamily:"a wide circle of friends from church, the neighborhood, and his years coaching youth basketball",
+    education:"Graduated from UNC Charlotte in 2001 with a degree in computer science.",
+    career:"Software engineer for 20 years, most recently a senior architect at Bank of America. Known at work for being the person who explained things until everyone in the room actually understood.",
+    description:"He was patient in a way that felt almost supernatural. Never raised his voice. Always had time for you. Made every person he talked to feel like the most interesting person in the room.",
+    ordinaryDay:"Up at 5:30 to work out, home breakfast with the kids before school, at his desk by 8. Coached Elijah's basketball practice on Tuesdays. Never missed dinner.",
+    quote:"Show up. That's 90 percent of it.",
+    freeTime:"Coaching youth basketball at the YMCA for eight years. Grilling on weekend afternoons. March Madness brackets he took very seriously. Road trips with the family every summer.",
+    memory:"Every Sunday morning he made a full breakfast — eggs, bacon, biscuits, the whole thing. The kids would wander downstairs following the smell. It was the one meal where everyone sat down and stayed.",
+    remember:"That he made his family feel safe. That he showed his kids what it looks like to be a good man by just being one every day.",
+    closingStatement:"He was our person. He still is.",
+    donation:"YMCA of Greater Charlotte, ymcacharlotte.org",
+    tone:"warm", length:"full"
+  },
+  olderWidow: {
+    fullName:"Eleanor Ruth Bassett", nickname:"Ellie",
+    dobMonth:"3", dobDay:"12", dobYear:"1938", birthPlace:"Knoxville, Tennessee",
+    dodMonth:"2", dodDay:"19", dodYear:"2025", deathPlace:"Knoxville, Tennessee",
+    city:"Knoxville, Tennessee", howRaised:"Born and raised in Knoxville, the youngest of four sisters. Her father was a Methodist minister and her mother taught piano lessons from the front parlor. Sunday dinners were large and loud and non-negotiable.",
+    hasSpouse:"yes", spouse:"Harold Bassett", spouseStatus:"preceded",
+    howMet:"Met Harold at a church social in the spring of 1958. Married September 6, 1959 at First Methodist Church in Knoxville. Together 54 years until Harold's passing in 2013.",
+    hasChildren:"yes",
+    children:"sons Gary (Karen) and Robert (Sue) Bassett; daughter Linda (Phil) Crane",
+    grandchildren:"nine grandchildren and four great-grandchildren",
+    siblings:"preceded in death by sisters Martha, Carol, and Joyce",
+    parents:"born to Reverend Thomas and Dorothy Whitfield",
+    precededBy:"her husband Harold, her parents, and her three sisters Martha, Carol, and Joyce",
+    otherFamily:"many beloved nieces, nephews, and longtime friends from First Methodist Church",
+    education:"Graduated from the University of Tennessee in 1960 with a degree in elementary education.",
+    career:"Taught fourth grade at Bearden Elementary for 29 years, retiring in 1989. Stayed connected to the school through the PTA for a decade after that.",
+    description:"She remembered everything about everyone. Birthdays, allergies, what you'd said offhand six months ago. She paid attention in a way that made people feel known.",
+    ordinaryDay:"Morning devotional at the kitchen table, coffee, the newspaper front to back. Lunch at noon exactly. Supper at five. Lawrence Welk reruns she'd already seen a hundred times.",
+    quote:"The Lord doesn't close a door without opening a window, but you still have to get up and walk through it.",
+    freeTime:"Her flower garden, especially her daylilies. Playing hymns on the upright piano in the living room. The Wednesday morning Bible study she attended for forty years. Sending handwritten birthday cards to every grandchild without fail.",
+    memory:"Every Christmas Eve she read 'The Night Before Christmas' aloud to the grandchildren, same copy her mother had read to her, held together now with tape and love. She did the voices. The kids never outgrew it.",
+    remember:"That she was faithful. To Harold, to her family, to her faith, to the people in her care. She never stopped showing up.",
+    closingStatement:"She taught us to be grateful, to be kind, and to always send a thank you note. We will spend the rest of our lives trying to live up to her example.",
+    donation:"First Methodist Church of Knoxville building fund",
+    tone:"traditional", length:"full"
+  }
+};
+
+function loadPersona(key) {
+  const p = PERSONAS[key];
+  if (!p) return;
+  state.form = {...INIT, ...p};
+  state.step = 0;
+  state.obit = "";
+  save();
+  render();
+}
+
 const restored=load();
 if (restored) {
   const rm=document.getElementById("restored-msg");
@@ -653,5 +783,24 @@ if (restored) {
 }
 render();
 </script>
+
+<div id="test-bar" style="display:none;max-width:600px;margin:2rem auto 0;padding:1rem 1.5rem;background:#fff;border:1px solid #C8BFB9;border-radius:10px;align-items:center;gap:12px;flex-wrap:wrap;">
+  <span style="font-family:Georgia,serif;font-size:13px;color:#7A706A;font-style:italic;flex-shrink:0;">Test data:</span>
+  <select id="persona-select" onchange="if(this.value){loadPersona(this.value);this.value='';}" style="font-family:Georgia,serif;font-size:14px;color:#2C2A26;border:1.5px solid #C8BFB9;border-radius:7px;padding:8px 12px;background:#FDFBF9;cursor:pointer;flex:1;min-width:200px;">
+    <option value="">Choose a persona to load...</option>
+    <option value="baby">Infant — Lily, 6 weeks</option>
+    <option value="teen">Teenager — Marcus, 16</option>
+    <option value="adultSingle">Adult, unmarried — Patricia, 53</option>
+    <option value="adultFamily">Adult with spouse and kids — Daniel, 45</option>
+    <option value="olderWidow">Older, deceased spouse — Eleanor, 86</option>
+  </select>
+</div>
+<script>
+  if (new URLSearchParams(window.location.search).get("test") === "true") {
+    const tb = document.getElementById("test-bar");
+    tb.style.display = "flex";
+  }
+</script>
+
 </body>
 </html>
