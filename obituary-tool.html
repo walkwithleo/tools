@@ -160,7 +160,8 @@ const INIT = {
   dobMonth:"",dobDay:"",dobYear:"",birthPlace:"",
   dodMonth:"",dodDay:"",dodYear:"",deathPlace:"",
   city:"",howRaised:"",
-  spouse:"",spouseStatus:"surviving",howMet:"",children:"",grandchildren:"",
+  hasSpouse:"",spouse:"",spouseStatus:"surviving",howMet:"",
+  hasChildren:"",children:"",grandchildren:"",
   siblings:"",parents:"",precededBy:"",otherFamily:"",
   education:"",career:"",
   description:"",ordinaryDay:"",quote:"",
@@ -413,8 +414,23 @@ function renderStep() {
   // STEP 1 — Family
   else if (state.step===1) {
     wrap.appendChild(skipNote);
-    wrap.appendChild(field("Spouse or partner",null,inp("spouse","Name")));
-    if (f.spouse) {
+
+    // ── Spouse toggle ──
+    const spouseBlock = el("div",{"class":"field"});
+    const spouseLbl = el("label",{}); spouseLbl.textContent="Did they have a spouse or partner?"; spouseBlock.appendChild(spouseLbl);
+    const spouseToggle = el("div",{"class":"radio-inline"});
+    [["yes","Yes"],["no","No"]].forEach(([v,l])=>{
+      const lbl=el("label",{});
+      const radio=el("input",{type:"radio",name:"hasSpouse"});
+      radio.checked=f.hasSpouse===v;
+      radio.addEventListener("change",()=>{ if(radio.checked){ set("hasSpouse",v); if(v==="no"){ set("spouse",""); set("howMet",""); set("spouseStatus","surviving"); } render(); } });
+      lbl.appendChild(radio); lbl.appendChild(document.createTextNode(" "+l)); spouseToggle.appendChild(lbl);
+    });
+    spouseBlock.appendChild(spouseToggle);
+    wrap.appendChild(spouseBlock);
+
+    if (f.hasSpouse==="yes") {
+      wrap.appendChild(field("Spouse or partner's name",null,inp("spouse","Full name")));
       const ri=el("div",{"class":"radio-inline"});
       [["surviving","Surviving"],["preceded","Preceded them in death"]].forEach(([v,l])=>{
         const lbl=el("label",{});
@@ -423,11 +439,29 @@ function renderStep() {
         radio.addEventListener("change",()=>{ if(radio.checked) set("spouseStatus",v); });
         lbl.appendChild(radio); lbl.appendChild(document.createTextNode(" "+l)); ri.appendChild(lbl);
       });
-      const fd=el("div",{"class":"field"}); fd.appendChild(ri); wrap.appendChild(fd);
-      wrap.appendChild(field("When and where did they meet and marry?","These details carry real weight — include how long they were married if you know",ta("howMet","e.g. Met at a mutual friend's cookout in the summer of 1974. Married June 12, 1976 at First Presbyterian Church. Together 48 years.",2)));
+      const statusField=el("div",{"class":"field"}); statusField.appendChild(ri); wrap.appendChild(statusField);
+      wrap.appendChild(field("When and where did they meet and marry?","Include how long they were married if you know",ta("howMet","e.g. Met at a mutual friend's cookout in the summer of 1974. Married June 12, 1976 at First Presbyterian Church. Together 48 years.",2)));
     }
-    wrap.appendChild(field("Children","Names, or 'four daughters' — include spouses in parentheses if you'd like",ta("children","e.g. daughters Anne (Patrick) and Carol; son James (Michelle)",2)));
-    wrap.appendChild(field("Grandchildren and great-grandchildren",null,inp("grandchildren","e.g. seven grandchildren, or list names")));
+
+    // ── Children toggle ──
+    const childBlock = el("div",{"class":"field"});
+    const childLbl = el("label",{}); childLbl.textContent="Did they have children?"; childBlock.appendChild(childLbl);
+    const childToggle = el("div",{"class":"radio-inline"});
+    [["yes","Yes"],["no","No"]].forEach(([v,l])=>{
+      const lbl=el("label",{});
+      const radio=el("input",{type:"radio",name:"hasChildren"});
+      radio.checked=f.hasChildren===v;
+      radio.addEventListener("change",()=>{ if(radio.checked){ set("hasChildren",v); if(v==="no"){ set("children",""); set("grandchildren",""); } render(); } });
+      lbl.appendChild(radio); lbl.appendChild(document.createTextNode(" "+l)); childToggle.appendChild(lbl);
+    });
+    childBlock.appendChild(childToggle);
+    wrap.appendChild(childBlock);
+
+    if (f.hasChildren==="yes") {
+      wrap.appendChild(field("Children","Names, or 'four daughters' — include spouses in parentheses if you'd like",ta("children","e.g. daughters Anne (Patrick) and Carol; son James (Michelle)",2)));
+      wrap.appendChild(field("Grandchildren and great-grandchildren",null,inp("grandchildren","e.g. seven grandchildren, or list names")));
+    }
+
     wrap.appendChild(field("Siblings",null,inp("siblings","Names")));
     wrap.appendChild(field("Parents",null,inp("parents","e.g. born to Harold and Evelyn Marsh")));
     wrap.appendChild(field("Who preceded them in death?","Include anyone — parents, siblings, grandchildren, others. If your spouse's status is already indicated above, no need to include them here.",ta("precededBy","e.g. preceded in death by her parents and her sister Diane",2)));
