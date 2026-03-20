@@ -10,7 +10,6 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    /* ── Brand colors ── */
     --primary:       #F15F4F;
     --primary-light: #F68F77;
     --primary-tint:  #FDECEA;
@@ -18,253 +17,114 @@
     --bg:            #ECE7E4;
     --card:          #FFFFFF;
     --dark:          #2C2A26;
-    --mid:           #5A524C;
-    --muted:         #8A7F78;
-    --border:        #D4CBC5;
+    --mid:           #4A4440;
+    --muted:         #7A706A;
+    --border:        #C8BFB9;
     --border-focus:  #F15F4F;
 
-    /* ── Typography scale — adjust these to resize the whole form ── */
-    --size-label:    15px;   /* field labels */
-    --size-hint:     14px;   /* hint/helper text below labels */
-    --size-input:    15px;   /* text inside inputs and textareas */
-    --size-body:     15px;   /* general body copy */
-    --size-step:     22px;   /* step title e.g. "The basics" */
-    --size-small:    12px;   /* footer notes, step counter */
-    --size-tiny:     10px;   /* LEO wordmark / logo label */
+    /* ── Typography scale — adjust these numbers to resize the whole form ── */
+    --size-label:  17px;
+    --size-hint:   15px;
+    --size-input:  16px;
+    --size-body:   16px;
+    --size-step:   24px;
+    --size-small:  13px;
+    --size-tiny:   11px;
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    Georgia, 'Times New Roman', serif;
   }
 
-  body {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    background: var(--bg);
-    color: var(--dark);
-    min-height: 100vh;
-    padding: 2.5rem 1.5rem 3rem;
-  }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--dark); min-height: 100vh; padding: 2.5rem 1.5rem 3rem; }
 
-  /* ── Header ── */
   .header { text-align: center; margin-bottom: 2rem; }
   .header-logo { margin-bottom: 0.75rem; }
-  .header-logo img { height: 48px; width: auto; display: inline-block; }
-  .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 0.4rem; }
-  .header p { font-size: var(--size-body); color: var(--mid); font-style: italic; }
+  .header-logo img { height: 52px; width: auto; display: inline-block; }
+  .header h1 { font-family: var(--font-display); font-size: 30px; font-weight: 600; margin-bottom: 0.5rem; }
+  .header p { font-family: var(--font-display); font-size: 17px; color: var(--mid); font-style: italic; }
 
-  /* ── Progress bar ── */
   .progress { display: flex; justify-content: center; align-items: center; gap: 4px; margin-bottom: 2rem; flex-wrap: wrap; }
-  .progress-dot {
-    width: 26px; height: 26px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600; cursor: default;
-    background: var(--border); color: var(--muted);
-    transition: all 0.2s;
-  }
+  .progress-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; cursor: default; background: var(--border); color: var(--muted); transition: all 0.2s; }
   .progress-dot.active { background: var(--primary); color: #fff; }
-  .progress-dot.done   { background: var(--primary); color: #fff; opacity: 0.6; cursor: pointer; }
-  .progress-line       { width: 16px; height: 1px; background: var(--border); opacity: 0.5; }
-  .progress-line.done  { background: var(--primary); opacity: 0.5; }
+  .progress-dot.done { background: var(--primary); color: #fff; opacity: 0.6; cursor: pointer; }
+  .progress-line { width: 16px; height: 1px; background: var(--border); opacity: 0.6; }
+  .progress-line.done { background: var(--primary); opacity: 0.6; }
 
-  /* ── Card ── */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 2.25rem 2.25rem 2rem;
-    max-width: 600px;
-    margin: 0 auto;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 2.25rem 2.25rem 2rem; max-width: 600px; margin: 0 auto; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
   .card.wide { max-width: 660px; }
 
-  /* ── Step label + title ── */
-  .step-label {
-    font-size: var(--size-tiny);
-    letter-spacing: 0.18em;
-    color: var(--primary);
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-    font-weight: 600;
-  }
-  .step-title {
-    font-size: var(--size-step);
-    font-weight: 600;
-    margin-bottom: 1.75rem;
-    color: var(--dark);
-  }
+  .step-label { font-size: var(--size-tiny); letter-spacing: 0.15em; color: var(--primary); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 700; }
+  .step-title { font-family: var(--font-display); font-size: var(--size-step); font-weight: 600; margin-bottom: 1.75rem; color: var(--dark); }
 
-  /* ── Fields ── */
   .field { margin-bottom: 1.5rem; }
-  .field label {
-    display: block;
-    font-size: var(--size-label);
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 4px;
-    letter-spacing: 0.01em;
-  }
-  .field .hint {
-    font-size: var(--size-hint);
-    color: var(--mid);
-    margin-bottom: 8px;
-    line-height: 1.55;
-  }
+  .field label { display: block; font-size: var(--size-label); font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+  .field .hint { font-size: var(--size-hint); color: var(--mid); margin-bottom: 9px; line-height: 1.55; }
 
-  /* ── Inputs ── */
-  input[type=text], input[type=date], input[type=url], textarea {
-    width: 100%;
-    padding: 11px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: var(--size-input);
-    font-family: inherit;
-    background: #FDFBF9;
-    color: var(--dark);
-    outline: none;
-    transition: border-color 0.15s;
+  input[type=text], input[type=date], input[type=url], textarea, select {
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: var(--size-input); font-family: var(--font-body);
+    background: #FDFBF9; color: var(--dark);
+    outline: none; transition: border-color 0.15s;
   }
-  input[type=text]:focus, input[type=date]:focus, input[type=url]:focus, textarea:focus {
-    border-color: var(--border-focus);
-  }
+  input[type=text]:focus, input[type=date]:focus, input[type=url]:focus, textarea:focus, select:focus { border-color: var(--border-focus); }
   textarea { resize: vertical; line-height: 1.65; }
 
-  /* ── Layout helpers ── */
+  .date-row { display: flex; gap: 8px; align-items: flex-start; }
+  .date-row select { padding: 12px 10px; }
+  .date-month { flex: 2; }
+  .date-day   { flex: 1; }
+  .date-year  { flex: 1.5; }
+
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .age-display {
-    font-size: var(--size-hint);
-    color: var(--muted);
-    font-style: italic;
-    margin-top: -1rem;
-    margin-bottom: 1.5rem;
-  }
+  .age-display { font-size: var(--size-hint); color: var(--muted); font-style: italic; margin-top: -1rem; margin-bottom: 1.5rem; }
 
-  /* ── Banners ── */
-  .banner, .thought-note {
-    background: var(--primary-tint);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 1.5rem;
-    font-size: var(--size-hint);
-    color: var(--primary-deep);
-    line-height: 1.6;
-  }
-  .skip-note {
-    font-size: var(--size-hint);
-    color: var(--mid);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-  }
+  .banner, .thought-note { background: var(--primary-tint); border-radius: 8px; padding: 13px 16px; margin-bottom: 1.5rem; font-size: var(--size-hint); color: var(--primary-deep); line-height: 1.6; }
+  .skip-note { font-size: var(--size-hint); color: var(--mid); margin-bottom: 1.5rem; line-height: 1.6; }
 
-  /* ── Radio cards ── */
-  .radio-card {
-    display: flex; align-items: flex-start; gap: 14px;
-    padding: 14px 16px; margin-bottom: 10px;
-    border: 1.5px solid var(--border); border-radius: 10px;
-    cursor: pointer; transition: all 0.15s;
-  }
+  .radio-card { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; margin-bottom: 10px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.15s; }
   .radio-card:hover { border-color: var(--primary-light); }
   .radio-card.selected { border-color: var(--primary); background: var(--primary-tint); }
-  .radio-dot {
-    width: 17px; height: 17px; border-radius: 50%;
-    flex-shrink: 0; margin-top: 2px;
-    border: 2px solid var(--border); background: transparent;
-    transition: all 0.15s;
-  }
+  .radio-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; border: 2px solid var(--border); background: transparent; transition: all 0.15s; }
   .radio-card.selected .radio-dot { border-color: var(--primary); background: var(--primary); }
-  .radio-label { font-size: var(--size-label); font-weight: 500; color: var(--dark); }
+  .radio-label { font-size: var(--size-label); font-weight: 600; color: var(--dark); }
   .radio-desc  { font-size: var(--size-hint); color: var(--mid); margin-top: 3px; line-height: 1.45; }
 
-  /* ── Inline radio (spouse status) ── */
   .radio-inline { display: flex; gap: 24px; margin-top: 10px; }
-  .radio-inline label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: var(--size-hint); color: var(--mid); cursor: pointer;
-  }
+  .radio-inline label { display: flex; align-items: center; gap: 8px; font-size: var(--size-hint); color: var(--mid); cursor: pointer; }
 
-  /* ── Nav ── */
-  .nav {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 2rem; padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-  }
-  .btn-back {
-    padding: 10px 22px; border-radius: 8px;
-    border: 1.5px solid var(--border);
-    background: transparent; color: var(--mid);
-    font-size: var(--size-body); font-family: inherit; cursor: pointer;
-    transition: border-color 0.15s;
-  }
+  .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .btn-back { padding: 11px 22px; border-radius: 8px; border: 1.5px solid var(--border); background: transparent; color: var(--mid); font-size: var(--size-body); font-family: var(--font-body); cursor: pointer; transition: all 0.15s; }
   .btn-back:hover { border-color: var(--primary); color: var(--primary); }
   .btn-back.hidden { visibility: hidden; }
-  .btn-next {
-    padding: 11px 26px; border-radius: 8px; border: none;
-    background: var(--primary); color: #fff;
-    font-size: var(--size-body); font-family: inherit; cursor: pointer;
-    transition: background 0.15s;
-  }
+  .btn-next { padding: 12px 28px; border-radius: 8px; border: none; background: var(--primary); color: #fff; font-size: var(--size-body); font-family: var(--font-body); cursor: pointer; font-weight: 600; transition: background 0.15s; }
   .btn-next:hover { background: var(--primary-deep); }
   .btn-next:disabled { background: var(--muted); cursor: default; }
 
   .err { color: var(--primary); font-size: var(--size-hint); margin-top: 0.75rem; text-align: right; }
 
-  /* ── Spinner ── */
-  .spinner {
-    display: inline-block; width: 13px; height: 13px;
-    border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-    margin-right: 8px; vertical-align: middle;
-  }
+  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; vertical-align: middle; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Output ── */
-  .output-area {
-    width: 100%; min-height: 440px; padding: 16px;
-    border: 1.5px solid var(--border); border-radius: 8px;
-    font-size: 16px; font-family: inherit;
-    background: #FDFBF9; color: var(--dark);
-    outline: none; resize: vertical; line-height: 1.9;
-  }
+  .output-area { width: 100%; min-height: 440px; padding: 16px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 16px; font-family: var(--font-body); background: #FDFBF9; color: var(--dark); outline: none; resize: vertical; line-height: 1.9; }
   .output-area:focus { border-color: var(--border-focus); }
 
-  /* ── Button group ── */
   .btn-group { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
-  .btn-primary {
-    padding: 11px 24px; border-radius: 8px; border: none;
-    background: var(--primary); color: #fff;
-    font-size: var(--size-body); font-family: inherit; cursor: pointer;
-    transition: background 0.15s;
-  }
+  .btn-primary { padding: 12px 24px; border-radius: 8px; border: none; background: var(--primary); color: #fff; font-size: var(--size-body); font-family: var(--font-body); cursor: pointer; font-weight: 600; transition: background 0.15s; }
   .btn-primary:hover { background: var(--primary-deep); }
-  .btn-secondary {
-    padding: 11px 24px; border-radius: 8px;
-    border: 1.5px solid var(--border);
-    background: transparent; color: var(--mid);
-    font-size: var(--size-body); font-family: inherit; cursor: pointer;
-    transition: border-color 0.15s;
-  }
+  .btn-secondary { padding: 12px 24px; border-radius: 8px; border: 1.5px solid var(--border); background: transparent; color: var(--mid); font-size: var(--size-body); font-family: var(--font-body); cursor: pointer; transition: all 0.15s; }
   .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
-  .btn-ghost {
-    padding: 11px 24px; border-radius: 8px;
-    border: 1.5px solid var(--border);
-    background: transparent; color: var(--muted);
-    font-size: var(--size-body); font-family: inherit; cursor: pointer;
-  }
+  .btn-ghost { padding: 12px 24px; border-radius: 8px; border: 1.5px solid var(--border); background: transparent; color: var(--muted); font-size: var(--size-body); font-family: var(--font-body); cursor: pointer; }
 
-  .output-note {
-    font-size: var(--size-hint); color: var(--mid);
-    margin-top: 1.5rem; line-height: 1.65;
-    border-top: 1px solid var(--border); padding-top: 1.25rem;
-  }
-  .footer-note {
-    text-align: center; font-size: var(--size-small);
-    color: var(--muted); margin-top: 1.5rem; font-style: italic;
-  }
-  .restored-msg {
-    text-align: center; margin-bottom: 0.75rem;
-    font-size: var(--size-small); color: var(--primary); font-style: italic;
-  }
+  .output-note { font-size: var(--size-hint); color: var(--mid); margin-top: 1.5rem; line-height: 1.65; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+  .footer-note { text-align: center; font-size: var(--size-small); color: var(--muted); margin-top: 1.5rem; font-style: italic; }
+  .restored-msg { text-align: center; margin-bottom: 0.75rem; font-size: var(--size-small); color: var(--primary); font-style: italic; }
 
   @media (max-width: 520px) {
     body { padding: 1.5rem 1rem 2rem; }
     .two-col { grid-template-columns: 1fr; }
     .card { padding: 1.5rem 1.25rem; }
+    .date-row { flex-wrap: wrap; }
   }
 </style>
 </head>
@@ -286,10 +146,18 @@
 
 <script>
 const STEP_NAMES = ["The basics","Family","Their life","Who they were","How they spent their time","Their story","Preferences"];
-const STORAGE_KEY = "leo-obit-v3";
+const STORAGE_KEY = "leo-obit-v4";
+
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const TODAY = new Date();
+const MAX_YEAR = TODAY.getFullYear();
+const MIN_YEAR = MAX_YEAR - 125;
 
 const INIT = {
-  fullName:"",nickname:"",dob:"",dod:"",city:"",howRaised:"",
+  fullName:"",nickname:"",
+  dobMonth:"",dobDay:"",dobYear:"",
+  dodMonth:"",dodDay:"",dodYear:"",
+  city:"",howRaised:"",
   spouse:"",spouseStatus:"surviving",howMet:"",children:"",grandchildren:"",
   siblings:"",parents:"",precededBy:"",otherFamily:"",
   education:"",career:"",
@@ -310,15 +178,27 @@ function load() {
   return false;
 }
 
-function calcAge(dob,dod) {
-  if (!dob||!dod) return null;
-  const b=new Date(dob), d=new Date(dod);
-  if (d-b<0) return null;
-  let y=d.getFullYear()-b.getFullYear();
-  const m=d.getMonth()-b.getMonth();
-  if (m<0||(m===0&&d.getDate()<b.getDate())) y--;
+function calcAge() {
+  const f = state.form;
+  if (!f.dobYear||!f.dobMonth||!f.dobDay||!f.dodYear||!f.dodMonth||!f.dodDay) return null;
+  const b = new Date(+f.dobYear, +f.dobMonth-1, +f.dobDay);
+  const d = new Date(+f.dodYear, +f.dodMonth-1, +f.dodDay);
+  if (d - b < 0) return null;
+  let y = d.getFullYear() - b.getFullYear();
+  const m = d.getMonth() - b.getMonth();
+  if (m < 0 || (m === 0 && d.getDate() < b.getDate())) y--;
   return y;
 }
+
+function formatDate(month, day, year) {
+  if (!month && !day && !year) return "";
+  const parts = [];
+  if (month) parts.push(MONTHS[+month-1]);
+  if (day) parts.push(day);
+  if (year) parts.push(year);
+  return parts.join(" ");
+}
+
 function ageGroup(age) {
   if (age===null) return "adult";
   if (age<1) return "infant";
@@ -348,15 +228,47 @@ function el(tag,attrs,...children) {
 function inp(f,placeholder,type="text") {
   const i=el("input",{type,placeholder});
   i.value=state.form[f]||"";
-  i.addEventListener("input",()=>{ set(f,i.value); if(f==="dob"||f==="dod") render(); });
+  i.addEventListener("input",()=>set(f,i.value));
   return i;
 }
+
 function ta(f,placeholder,rows=3) {
   const t=el("textarea",{rows,placeholder});
   t.value=state.form[f]||"";
   t.addEventListener("input",()=>set(f,t.value));
   return t;
 }
+
+function dateSelects(prefix) {
+  const wrap = el("div",{"class":"date-row"});
+
+  const mSel = el("select",{"class":"date-month"});
+  const mOpt = el("option",{}); mOpt.value=""; mOpt.textContent="Month"; mSel.appendChild(mOpt);
+  MONTHS.forEach((m,i)=>{ const o=el("option",{}); o.value=String(i+1); o.textContent=m; if(state.form[prefix+"Month"]===String(i+1)) o.selected=true; mSel.appendChild(o); });
+  mSel.addEventListener("change",()=>{ set(prefix+"Month",mSel.value); updateAge(); });
+
+  const dSel = el("select",{"class":"date-day"});
+  const dOpt = el("option",{}); dOpt.value=""; dOpt.textContent="Day"; dSel.appendChild(dOpt);
+  for(let i=1;i<=31;i++){ const o=el("option",{}); o.value=String(i); o.textContent=String(i); if(state.form[prefix+"Day"]===String(i)) o.selected=true; dSel.appendChild(o); }
+  dSel.addEventListener("change",()=>{ set(prefix+"Day",dSel.value); updateAge(); });
+
+  const ySel = el("select",{"class":"date-year"});
+  const yOpt = el("option",{}); yOpt.value=""; yOpt.textContent="Year"; ySel.appendChild(yOpt);
+  for(let y=MAX_YEAR;y>=MIN_YEAR;y--){ const o=el("option",{}); o.value=String(y); o.textContent=String(y); if(state.form[prefix+"Year"]===String(y)) o.selected=true; ySel.appendChild(o); }
+  ySel.addEventListener("change",()=>{ set(prefix+"Year",ySel.value); updateAge(); });
+
+  wrap.appendChild(mSel); wrap.appendChild(dSel); wrap.appendChild(ySel);
+  return wrap;
+}
+
+function updateAge() {
+  const ad = document.getElementById("age-display");
+  if (!ad) return;
+  const age = calcAge();
+  if (age !== null) { ad.textContent = `Age at passing: ${age === 0 ? "under 1 year" : age}`; ad.style.display="block"; }
+  else { ad.style.display="none"; }
+}
+
 function field(labelText,hintText,inputEl) {
   const d=el("div",{"class":"field"});
   if (labelText) { const l=el("label",{}); l.textContent=labelText; d.appendChild(l); }
@@ -364,12 +276,13 @@ function field(labelText,hintText,inputEl) {
   if (inputEl)   d.appendChild(inputEl);
   return d;
 }
+
 function radioCard(fk,value,labelText,descText) {
   const d=el("div",{"class":state.form[fk]===value?"radio-card selected":"radio-card"});
   const dot=el("div",{"class":"radio-dot"});
   const txt=el("div",{});
   const lbl=el("div",{"class":"radio-label"}); lbl.textContent=labelText;
-  const dsc=el("div",{"class":"radio-desc"});  dsc.textContent=descText;
+  const dsc=el("div",{"class":"radio-desc"}); dsc.textContent=descText;
   txt.appendChild(lbl); txt.appendChild(dsc);
   d.appendChild(dot); d.appendChild(txt);
   d.addEventListener("click",()=>{ set(fk,value); render(); });
@@ -378,17 +291,16 @@ function radioCard(fk,value,labelText,descText) {
 
 function buildPrompt() {
   const f=state.form;
-  const age=calcAge(f.dob,f.dod);
+  const age=calcAge();
+  const ag=ageGroup(age);
+  const dob=formatDate(f.dobMonth,f.dobDay,f.dobYear);
+  const dod=formatDate(f.dodMonth,f.dodDay,f.dodYear);
   const toneMap={
     warm:"warm, personal, and conversational — written as if by someone who deeply loved them",
     traditional:"traditional, reverent, and formal — appropriate for print in a newspaper",
     simple:"simple, honest, and quietly dignified — no flourishes, lets the details speak"
   };
-  const lenMap={
-    brief:"approximately 150–200 words",
-    standard:"approximately 250–350 words",
-    full:"approximately 400–500 words"
-  };
+  const lenMap={brief:"approximately 150–200 words",standard:"approximately 250–350 words",full:"approximately 400–500 words"};
 
   return `You are helping a grieving family write an obituary in the first days after losing someone they love. Write with care, warmth, and specificity. Write in third person.
 
@@ -397,11 +309,11 @@ ${age!==null?`Age at passing: ${age===0?"under 1 year old (infant)":age}`:""}
 BASICS
 Full name: ${f.fullName}
 ${f.nickname?`Known as: ${f.nickname}`:""}
-${f.dob?`Born: ${f.dob}`:""}${f.dod?` | Passed: ${f.dod}`:""}
+${dob?`Born: ${dob}`:""}${dod?` | Passed: ${dod}`:""}
 ${f.city?`Lived in: ${f.city}`:""}
 ${f.howRaised?`How they were raised: ${f.howRaised}`:""}
 
-SPOUSE — IMPORTANT: Introduce the spouse early, within the first 2-3 paragraphs. Frame the marriage as part of who they were, not just a survivor listing. Include duration of marriage if it can be calculated from dates provided.
+SPOUSE — IMPORTANT: Introduce the spouse early, within the first 2-3 paragraphs. Frame the marriage as part of who they were, not just a survivor listing. Include duration of marriage if it can be calculated.
 ${f.spouse?`${f.spouseStatus==="surviving"?"Spouse (surviving)":"Spouse (preceded them in death)"}: ${f.spouse}`:""}
 ${f.howMet?`Marriage details: ${f.howMet}`:""}
 
@@ -446,7 +358,7 @@ INSTRUCTIONS
 
 function renderStep() {
   const f=state.form;
-  const age=calcAge(f.dob,f.dod);
+  const age=calcAge();
   const ag=ageGroup(age);
   const wrap=el("div",{});
 
@@ -457,7 +369,7 @@ function renderStep() {
     youngadult:`Based on the dates you've entered, we'll tailor these questions for a young adult (age ${age}). Skip anything that doesn't apply.`,
   };
 
-  const ageBanner=(ag!=="adult"&&f.dob&&f.dod)?(()=>{ const b=el("div",{"class":"banner"}); b.textContent=ageBannerText[ag]; return b; })():null;
+  const ageBanner=(ag!=="adult"&&(f.dobYear||f.dodYear))?(()=>{ const b=el("div",{"class":"banner"}); b.textContent=ageBannerText[ag]; return b; })():null;
   const thoughtNote=(()=>{ const n=el("div",{"class":"thought-note"}); n.textContent="These are thought starters. Answer what feels useful, skip what doesn't. Nothing here is required."; return n; })();
   const skipNote=(()=>{ const n=el("div",{"class":"skip-note"}); n.textContent="Add what applies, skip what doesn't. There's no required structure here."; return n; })();
 
@@ -465,11 +377,22 @@ function renderStep() {
   if (state.step===0) {
     wrap.appendChild(field("Full name","The only field we truly need to get started",inp("fullName","First, middle, last")));
     wrap.appendChild(field("Nickname or what family called them","If they were known by something other than their full name",inp("nickname",'e.g. Mom, Grandpa Joe, "Doc"')));
-    const twoCol=el("div",{"class":"two-col"});
-    twoCol.appendChild(field("Date of birth",null,inp("dob","","date")));
-    twoCol.appendChild(field("Date of passing",null,inp("dod","","date")));
-    wrap.appendChild(twoCol);
-    if (age!==null) { const ad=el("div",{"class":"age-display"}); ad.textContent=`Age at passing: ${age===0?"under 1 year":age}`; wrap.appendChild(ad); }
+
+    const dobField=el("div",{"class":"field"});
+    const dobLabel=el("label",{}); dobLabel.textContent="Date of birth"; dobField.appendChild(dobLabel);
+    dobField.appendChild(dateSelects("dob"));
+    wrap.appendChild(dobField);
+
+    const dodField=el("div",{"class":"field"});
+    const dodLabel=el("label",{}); dodLabel.textContent="Date of passing"; dodField.appendChild(dodLabel);
+    dodField.appendChild(dateSelects("dod"));
+    wrap.appendChild(dodField);
+
+    const ageDisp=el("div",{"class":"age-display","id":"age-display"});
+    if (age!==null) { ageDisp.textContent=`Age at passing: ${age===0?"under 1 year":age}`; }
+    else { ageDisp.style.display="none"; }
+    wrap.appendChild(ageDisp);
+
     wrap.appendChild(field("Where they lived",null,inp("city","City, State")));
     wrap.appendChild(field("How they were raised","Not just where — the environment, the people, what shaped them",ta("howRaised","e.g. Grew up in a small town in rural Georgia, one of five kids. Her mother kept a big garden and her father ran the hardware store on Main Street.",3)));
   }
